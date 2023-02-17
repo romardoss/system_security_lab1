@@ -23,6 +23,13 @@
             <Setter Property="Foreground" Value="#001514"/>
             <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
         </Style>
+        <Style TargetType="RichTextBox">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#001514"/>
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -30,9 +37,18 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Canvas Background="#695958" Grid.Row="0"/>
-        <Canvas Background="#B6C8A9" Grid.Row="1"/>
-        <TextBox TextWrapping="Wrap" Text="Text" Width="494" Height="132" Grid.Row="1" Margin="0,0,0,150"/>
-        <TextBox TextWrapping="Wrap" Text="Key" Width="494" Height="30" Grid.Row="1" Margin="0,50,0,0"/>
+        <Canvas Background="#B6C8A9" Grid.Row="1">
+            <RichTextBox x:Name="WorkingText" Height="250" Width="600" VerticalAlignment="Top" 
+                         Canvas.Left="90" Canvas.Top="90" >
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="Text"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Canvas>
+        <TextBox x:Name="KeyText" TextWrapping="Wrap" Text="Key" Width="600" Height="30" Grid.Row="1" 
+                 VerticalAlignment="Top" Margin="90,40,0,0" HorizontalAlignment="Left"/>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
@@ -41,13 +57,14 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Upload file" Grid.Column="0"/>
-            <Button Content="Encrypt" Grid.Column="1"/>
-            <Button Content="Decrypt" Grid.Column="2"/>
-            <Button Content="Author" Grid.Column="3"/>
+            <Button x:Name="NewFileButton" Content="New File" Grid.Column="0" Click="NewFileButton_Click"/>
+            <Button x:Name="OpenFile" Content="Open file" Grid.Column="1" Click="OpenFileButton_Click"/>
+            <Button x:Name="SaveFileButton" Content="Save file" Grid.Column="2"/>
+            <Button x:Name="EncryptButton" Content="Encrypt" Grid.Column="3"/>
+            <Button x:Name="DecryptButton" Content="Decrypt" Grid.Column="4"/>
+            <Button x:Name="AboutButton" Content="About" Grid.Column="7"/>
         </Grid>
     </Grid>
 </Window>
