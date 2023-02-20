@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using Spire.Doc;
+using Xceed.Words.NET;
 
 namespace InformationSystemsSecurityLab1
 {
@@ -107,7 +108,28 @@ namespace InformationSystemsSecurityLab1
 
         private void SaveFileButton_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFile = new SaveFileDialog
+            {
+                Filter = "Text files (*.txt)|*.txt|Microsoft Word document (*.docx)|*.docx|All files (*.*)|*.*",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments),
 
+            };
+            if(saveFile.ShowDialog() == true)
+            {
+                if(Path.GetExtension(saveFile.FileName) == ".txt")
+                {
+                    File.WriteAllText(saveFile.FileName,
+                    StringFromRichTextBox(WorkingText));
+                }
+                else if(Path.GetExtension(saveFile.FileName) == ".doc" ||
+                    Path.GetExtension(saveFile.FileName) == ".docx")
+                {
+                    var doc = DocX.Create(saveFile.FileName);
+                    doc.InsertParagraph(StringFromRichTextBox(WorkingText));
+                    doc.Save();
+
+                }
+            }
         }
     }
 }
