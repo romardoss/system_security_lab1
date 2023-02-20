@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using Spire.Doc;
 
 namespace InformationSystemsSecurityLab1
 {
@@ -19,11 +20,27 @@ namespace InformationSystemsSecurityLab1
         {
             OpenFileDialog openFile = new OpenFileDialog
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments)
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments),
+                Filter = "Text files (*.txt; *.doc; *.docx)|*.txt;*.doc;*.docx|All files (*.*)|*.*",
             };
             if (openFile.ShowDialog() == true ) {
                 WorkingText.Document.Blocks.Clear();
-                WorkingText.AppendText(File.ReadAllText(openFile.FileName));
+                if(Path.GetExtension(openFile.FileName) == ".doc" ||
+                    Path.GetExtension(openFile.FileName) == ".docx")
+                {
+                    Document doc = new Document();
+                    doc.LoadFromFile(openFile.FileName);
+                    WorkingText.AppendText(doc.GetText());
+                }
+                else if (Path.GetExtension(openFile.FileName) == ".txt")
+                {
+                    WorkingText.AppendText(File.ReadAllText(openFile.FileName));
+                }
+                else
+                {
+                    MessageBox.Show("Unknown file extension. It is only .txt, " +
+                        ".doc, .docx provided");
+                }
             }
         }
 
@@ -80,6 +97,17 @@ namespace InformationSystemsSecurityLab1
                 MessageBox.Show("Key must be a number");
                 throw new Exception();
             }
+        }
+
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            About aboutWindow = new About();
+            aboutWindow.ShowDialog();
+        }
+
+        private void SaveFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

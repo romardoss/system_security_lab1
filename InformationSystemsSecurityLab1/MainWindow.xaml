@@ -61,10 +61,10 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="NewFileButton" Content="New File" Grid.Column="0" Click="NewFileButton_Click"/>
             <Button x:Name="OpenFile" Content="Open file" Grid.Column="1" Click="OpenFileButton_Click"/>
-            <Button x:Name="SaveFileButton" Content="Save file" Grid.Column="2"/>
+            <Button x:Name="SaveFileButton" Content="Save file" Grid.Column="2" Click="SaveFileButton_Click"/>
             <Button x:Name="EncryptButton" Content="Encrypt" Grid.Column="3" Click="EncryptButton_Click"/>
             <Button x:Name="DecryptButton" Content="Decrypt" Grid.Column="4" Click="DecryptButton_Click"/>
-            <Button x:Name="AboutButton" Content="About" Grid.Column="7"/>
+            <Button x:Name="AboutButton" Content="About" Grid.Column="7" Click="AboutButton_Click"/>
         </Grid>
     </Grid>
 </Window>
