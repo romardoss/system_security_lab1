@@ -1,12 +1,9 @@
 ﻿using InformationSystemsSecurityLab1.EncryptionCode;
-using Microsoft.Win32;
 using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using Spire.Doc;
-using Xceed.Words.NET;
+using InformationSystemsSecurityLab1.UIControllers;
 
 namespace InformationSystemsSecurityLab1
 {
@@ -19,35 +16,14 @@ namespace InformationSystemsSecurityLab1
 
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog
-            {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments),
-                Filter = "Text files (*.txt; *.doc; *.docx)|*.txt;*.doc;*.docx|All files (*.*)|*.*",
-            };
-            if (openFile.ShowDialog() == true ) {
-                WorkingText.Document.Blocks.Clear();
-                if(Path.GetExtension(openFile.FileName) == ".doc" ||
-                    Path.GetExtension(openFile.FileName) == ".docx")
-                {
-                    Document doc = new Document();
-                    doc.LoadFromFile(openFile.FileName);
-                    WorkingText.AppendText(doc.GetText());
-                }
-                else if (Path.GetExtension(openFile.FileName) == ".txt")
-                {
-                    WorkingText.AppendText(File.ReadAllText(openFile.FileName));
-                }
-                else
-                {
-                    MessageBox.Show("Unknown file extension. It is only .txt, " +
-                        ".doc, .docx provided");
-                }
-            }
+            var file = new FileController();
+            file.OpenFile(WorkingText);
         }
 
         private void NewFileButton_Click(object sender, RoutedEventArgs e)
         {
-            WorkingText.Document.Blocks.Clear();
+            var file = new FileController();
+            file.NewFile(WorkingText);
         }
 
         private string StringFromRichTextBox(RichTextBox richTextBox)
@@ -64,7 +40,8 @@ namespace InformationSystemsSecurityLab1
                 int key = GetKey(KeyText.Text);
                 string input = StringFromRichTextBox(WorkingText);
                 string answer = CeasarAlgorithm.Encrypt(input, key);
-                PrintAnswer(answer);
+                var fileController = new FileController();
+                fileController.PrintFile(WorkingText, answer);
             }
             catch (Exception) { }
         }
@@ -76,15 +53,10 @@ namespace InformationSystemsSecurityLab1
                 int key = GetKey(KeyText.Text);
                 string input = StringFromRichTextBox(WorkingText);
                 string answer = CeasarAlgorithm.Decrypt(input, key);
-                PrintAnswer(answer);
+                var fileController = new FileController();
+                fileController.PrintFile(WorkingText, answer);
             }
             catch (Exception) { }
-        }
-
-        private void PrintAnswer(string answer)
-        {
-            WorkingText.Document.Blocks.Clear();
-            WorkingText.AppendText(answer);
         }
 
         private int GetKey(string key)
@@ -108,28 +80,8 @@ namespace InformationSystemsSecurityLab1
 
         private void SaveFileButton_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFile = new SaveFileDialog
-            {
-                Filter = "Text files (*.txt)|*.txt|Microsoft Word document (*.docx)|*.docx|All files (*.*)|*.*",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments),
-
-            };
-            if(saveFile.ShowDialog() == true)
-            {
-                if(Path.GetExtension(saveFile.FileName) == ".txt")
-                {
-                    File.WriteAllText(saveFile.FileName,
-                    StringFromRichTextBox(WorkingText));
-                }
-                else if(Path.GetExtension(saveFile.FileName) == ".doc" ||
-                    Path.GetExtension(saveFile.FileName) == ".docx")
-                {
-                    var doc = DocX.Create(saveFile.FileName);
-                    doc.InsertParagraph(StringFromRichTextBox(WorkingText));
-                    doc.Save();
-
-                }
-            }
+            var file = new FileController();
+            file.SaveFile(WorkingText, StringFromRichTextBox(WorkingText));
         }
     }
 }

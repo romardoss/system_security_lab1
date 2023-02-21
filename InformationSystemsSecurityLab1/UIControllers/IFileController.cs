@@ -1,10 +1,12 @@
-﻿namespace InformationSystemsSecurityLab1.UIControllers
+﻿using System.Windows.Controls;
+
+namespace InformationSystemsSecurityLab1.UIControllers
 {
     internal interface IFileController
     {
-        void OpenFile();
-        void SaveFile();
-        void NewFile();
-        void PrintFile();
+        void OpenFile(RichTextBox file);
+        void SaveFile(RichTextBox file, string text);
+        void NewFile(RichTextBox file);
+        void PrintFile(RichTextBox file, string text);
     }
 }
