@@ -4,8 +4,8 @@ namespace InformationSystemsSecurityLab1.AliceBobEva
 {
     internal abstract class BaseUser
     {
-        public string Name { get; }
-        public string Message { get; }
+        public string Name { get; set; }
+        public string Message { get; set;  }
         public int Key { get; set; }
 
         public string SendMessage()

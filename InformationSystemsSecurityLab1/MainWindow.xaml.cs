@@ -1,5 +1,4 @@
 ﻿using InformationSystemsSecurityLab1.EncryptionCode;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -35,41 +34,18 @@ namespace InformationSystemsSecurityLab1
 
         private void EncryptButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                int key = GetKey(KeyText.Text);
-                string input = StringFromRichTextBox(WorkingText);
-                string answer = CeasarAlgorithm.Encrypt(input, key);
-                var fileController = new FileController();
-                fileController.PrintFile(WorkingText, answer);
-            }
-            catch (Exception) { }
+            string input = StringFromRichTextBox(WorkingText);
+            string answer = CeasarAlgorithm.Encrypt(input, KeyText.Text);
+            var fileController = new FileController();
+            fileController.PrintFile(WorkingText, answer);
         }
 
         private void DecryptButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                int key = GetKey(KeyText.Text);
-                string input = StringFromRichTextBox(WorkingText);
-                string answer = CeasarAlgorithm.Decrypt(input, key);
-                var fileController = new FileController();
-                fileController.PrintFile(WorkingText, answer);
-            }
-            catch (Exception) { }
-        }
-
-        private int GetKey(string key)
-        {
-            if (int.TryParse(key, out int answer))
-            {
-                return answer;
-            }
-            else
-            {
-                MessageBox.Show("Key must be a number");
-                throw new Exception();
-            }
+            string input = StringFromRichTextBox(WorkingText);
+            string answer = CeasarAlgorithm.Decrypt(input, KeyText.Text);
+            var fileController = new FileController();
+            fileController.PrintFile(WorkingText, answer);
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
